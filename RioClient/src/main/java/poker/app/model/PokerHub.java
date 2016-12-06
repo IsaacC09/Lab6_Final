@@ -82,92 +82,48 @@ public class PokerHub extends Hub {
 
 
 			case Draw:
-				HubGamePlay
-
-				.seteDrawCountLast(eDrawCount.geteDrawCount(HubGamePlay.geteDrawCountLast().getDrawNo() + 1));
-
+				HubGamePlay.seteDrawCountLast(eDrawCount.geteDrawCount(
+						HubGamePlay.geteDrawCountLast().getDrawNo() + 1));
 		HubGamePlay.seteGameState(eGameState.DRAW);
-
-		CardDraw cd = HubGamePlay.getRule().GetDrawCard(HubGamePlay.geteDrawCountLast());
-
-		int iCardsToDraw = cd.getCardCount().getCardCount();
-
-
-
-		if (cd.getCardDestination() == eCardDestination.Player) {
-
+		CardDraw draw = HubGamePlay.getRule().GetDrawCard(HubGamePlay.geteDrawCountLast());
+		int iCardsToDraw = draw.getCardCount().getCardCount();
+		
+		//fires if card is to go to player 
+		if (draw.getCardDestination() == eCardDestination.Player) {
 			for (int i : HubGamePlay.getiActOrder()) {
-
-				Player p = HubGamePlay.getPlayerByPosition(i);
-
-				if (p != null) {
-
+				Player player = HubGamePlay.getPlayerByPosition(i);
+				//if player exists then draw.
+				if (player != null) {
 					for (int iDraw = 0; iDraw < iCardsToDraw; iDraw++) {
-
 						try {
-
-							HubGamePlay.drawCard(p, cd.getCardDestination());
-
+							HubGamePlay.drawCard(player, draw.getCardDestination());
 						} catch (DeckException e) {
-
-							// Whoops! Exception was throw... send it
-
-							// back to the client
-
 							resetOutput();
-
 							sendToAll(e);
-
 							e.printStackTrace();
-
 							return;
-
 						}
-
 					}
-
 				}
-
 			}
-
-		} else if (cd.getCardDestination() == eCardDestination.Community) {
-
+		//fires if card is to go to middle
+		} else if (draw.getCardDestination() == eCardDestination.Community) {
 			System.out.println("Community");
-
-			Player p = HubGamePlay.getPlayerCommon();
-
-			if (p != null) {
-
+			Player player = HubGamePlay.getPlayerCommon();
+			//if community pool exists then draw.
+			if (player != null) {
 				for (int iDraw = 0; iDraw < iCardsToDraw; iDraw++) {
-
 					try {
-
-						HubGamePlay.drawCard(p, cd.getCardDestination());
-
+						HubGamePlay.drawCard(player, draw.getCardDestination());
 					} catch (DeckException e) {
-
-						// Whoops! Exception was throw... send it
-
-						// back to the client
-
 						resetOutput();
-
 						sendToAll(e);
-
 						e.printStackTrace();
-
 						return;
-
 					}
-
 				}
-
 			}
-
 		}
-
-
-
 		HubGamePlay.isGameOver();
 				resetOutput();
 				sendToAll(HubGamePlay);

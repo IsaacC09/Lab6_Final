@@ -302,7 +302,6 @@ public class PokerTableController implements Initializable {
 					for (Card c : cardsDrawn) {
 						if (p.getPlayerID().equals(mainApp.getPlayer().getPlayerID())) {
 							this.getCardHBox(p.getiPlayerPosition()).getChildren().add(BuildImage(c.getiCardNbr()));
-							
 							System.out.println("HBox");
 							HBox hb = this.getCardHBox(p.getiPlayerPosition());
 							Bounds bndCardDealt2 = hb.localToScene(hb.getBoundsInLocal());
@@ -318,16 +317,6 @@ public class PokerTableController implements Initializable {
 								System.out.println("x:" + bndCardDealt.getMinX());
 								System.out.println("y:" + bndCardDealt.getMinY());								
 							}
-							
-							
-							//ivDealtCard = (ImageView)this.getCardHBox(p.getiPlayerPosition()).getChildren().get(this.getCardHBox(p.getiPlayerPosition()).getChildren().size() -1);
-							
-
-
-							
-							
-							
-							
 						} else {
 							this.getCardHBox(p.getiPlayerPosition()).getChildren().add(BuildImage(0));
 							ivDealtCard = (ImageView)this.getCardHBox(p.getiPlayerPosition()).getChildren().get(this.getCardHBox(p.getiPlayerPosition()).getChildren().size() -1);							
@@ -343,11 +332,8 @@ public class PokerTableController implements Initializable {
 					this.getCardHBox(0).getChildren().add(BuildImage(c.getiCardNbr()));
 					ivDealtCard = (ImageView)this.getCardHBox(0).getChildren().get(this.getCardHBox(0).getChildren().size() -1);
 				}
-			}
-			
-
+			}	
 		}
-
 		if (HubPokerGame.geteGameState() == eGameState.FINISHED) {
 			Action act = new Action(eAction.ScoreGame, mainApp.getPlayer());
 			// Send the Action to the Hub
@@ -359,7 +345,6 @@ public class PokerTableController implements Initializable {
 					+ eRank.geteRank(hs.getHiHand()).toString());
 		}
 	}
-
 	private ImageView BuildImage(int iCardNbr) {
 		String strImgPath;
 		if (iCardNbr == 0) {
